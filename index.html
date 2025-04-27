@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  
+  <title>Task Tracker</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --primary-color: #ff9d8a;
+      --secondary-color: #a6c8ff;
+      --dark-text: #444;
+      --light-text: #888;
+      --border-radius: 16px;
+    }
+    
+    body {
+      background-color: #f5f5f7;
+      padding: 0;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .app-container {
+      width: 100%;
+     
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .sidebar {
+      width: 120px;
+      background-color: #6b5eff;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      background-color: #ff8a76;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .nav-item {
+      width: 100%;
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .nav-item:hover {
+      color: white;
+    }
+    
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-item i {
+      font-size: 20px;
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .header h1 {
+      font-size: 18px;
+      color: var(--dark-text);
+    }
+    
+    .header-icons {
+      display: flex;
+    }
+    
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      margin-left: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      padding: 20px;
+      border-radius: var(--border-radius);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .today-card {
+      background: linear-gradient(45deg, #ff8a76, #ff9d8a);
+    }
+    
+    .task-card {
+      background: linear-gradient(45deg, #88a5ff, #a6c8ff);
+    }
+    
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .card p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    .card-icon {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    .add-task-section {
+      background-color: #f9f9f9;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .input-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .input-container input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 5px;
+      font-size: 14px;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    .circle-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .circle-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .calendar-section {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .calendar-section h3 {
+      color: var(--dark-text);
+      margin-bottom: 15px;
+    }
+    
+    .calendar {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .calendar th, .calendar td {
+      width: 36px;
+      height: 36px;
+      text-align: center;
+      padding: 5px;
+      font-size: 14px;
+    }
+    
+    .calendar th {
+      color: var(--light-text);
+      font-weight: normal;
+    }
+    
+    .calendar .current-day {
+      background-color: #6b5eff;
+      color: white;
+      border-radius: 50%;
+    }
+    
+    .task-list {
+      margin-top: 20px;
+    }
+    
+    .task-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .task-checkbox {
+      margin-right: 15px;
+    }
+    
+    .task-content {
+      flex: 1;
+    }
+    
+    .task-title {
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+    }
+    
+    .task-description {
+      font-size: 12px;
+      color: var(--light-text);
+    }
+    
+    .task-actions {
+      display: flex;
+    }
+    
+    .task-action-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    
+    .right-sidebar {
+      width: 280px;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-left: 1px solid #eee;
+    }
+    
+    .right-sidebar h3 {
+      color: var(--dark-text);
+      margin-bottom: 15px;
+    }
+    
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .filter-pill {
+      padding: 8px 15px;
+      background-color: white;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--dark-text);
+      cursor: pointer;
+      border: 1px solid #eee;
+      transition: all 0.3s;
+    }
+    
+    .filter-pill:hover, .filter-pill.active {
+      background-color: #6b5eff;
+      color: white;
+      border-color: #6b5eff;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card, .add-task-section, .calendar-section, .task-item {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    
+    .add-task-section {
+      animation-delay: 0.2s;
+    }
+    
+    .task-item:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+    
+    .task-item:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+    
+    .task-item:nth-child(3) {
+      animation-delay: 0.5s;
+    }
+    
+    .circle-button {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="sidebar">
+     <a href="./profile.html">
+      <div class="logo" >k</div>
+      <div class="nav-item active">
+        <i class="fas fa-home"></i>
+      </div>
+     </a>
+      <div class="nav-item">
+       <a href="./form.html"> <i class="fas fa-plus"></i></a>
+      </div>
+      
+      <div class="nav-item">
+      <a href="calender.html">  <i class="fas fa-calendar"></i></a>
+      </div>
+      <div class="nav-item">
+       <a href="fetchh.html"> <i class="fas fa-tasks"></i></a>
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-folder"></i>
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-cog" id="logout"></i>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>Tasks 24 Min "Deadline"</h1>
+        <div class="header-icons">
+          <div class="header-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cards-container">
+        <div class="card today-card">
+          <div>
+            <h3>Today</h3>
+            <p>14 April</p>
+          </div>
+          <div class="card-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="card-footer">
+            <div>
+              <span>3/8</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card task-card">
+          <div>
+            <h3>Task</h3>
+            <p>Daily UI, APL</p>
+          </div>
+          <div class="card-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="card-footer">
+            <div>
+              <span>7/10</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="add-task-section">
+        <div class="section-header">
+          <h3>14 APRIL</h3>
+        </div>
+        
+        <div class="input-container">
+          <input type="text" placeholder="Add headline and content" id="taskInput">
+        </div>
+        
+        <div class="button-container">
+          <div class="circle-button" style="background-color: #4ce1b6;">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="circle-button" style="background-color: #ff9d8a;">
+            <i class="fas fa-plus"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="section-header">
+          <div>
+            <span>TASKS (3)</span>
+          </div>
+          <div>
+            <span>10</span>
+            <span>25</span>
+            <span>R</span>
+            <span>52</span>
+          </div>
+        </div>
+        
+        <div class="task-list">
+          <div class="task-item">
+            <div class="task-checkbox">
+              <input type="checkbox">
+            </div>
+            <div class="task-content">
+              <div class="task-title">Task 2</div>
+              <div class="task-description">Thursday 1PM</div>
+            </div>
+            <div class="task-actions">
+              <div class="task-action-btn" style="background-color: #e6f4ff;">
+                <i class="fas fa-cloud" style="color: #66a5ff;"></i>
+              </div>
+              <div class="task-action-btn" style="background-color: #f0e6ff;">
+                <i class="fas fa-edit" style="color: #9966ff;"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="task-item">
+            <div class="task-checkbox">
+              <input type="checkbox">
+            </div>
+            <div class="task-content">
+              <div class="task-title">Research Blog</div>
+              <div class="task-description">Friday 3PM</div>
+            </div>
+            <div class="task-actions">
+              <div class="task-action-btn" style="background-color: #e6f4ff;">
+                <i class="fas fa-cloud" style="color: #66a5ff;"></i>
+              </div>
+              <div class="task-action-btn" style="background-color: #f0e6ff;">
+                <i class="fas fa-chart-pie" style="color: #9966ff;"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="task-item">
+            <div class="task-checkbox">
+              <input type="checkbox">
+            </div>
+            <div class="task-content">
+              <div class="task-title">Mini Tasks</div>
+              <div class="task-description">Saturday 10AM</div>
+            </div>
+            <div class="task-actions">
+              <div class="task-action-btn" style="background-color: #e6fffa;">
+                <i class="fas fa-file" style="color: #4ce1b6;"></i>
+              </div>
+              <div class="task-action-btn" style="background-color: #e6f4ff;">
+                <i class="fas fa-cloud" style="color: #66a5ff;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-sidebar">
+      <h3>Today's</h3>
+      
+      <div class="filters">
+        <div class="filter-pill active">
+          Tasks
+        </div>
+        <div class="filter-pill">
+          Events
+        </div>
+      </div>
+      
+      <div class="calendar-section">
+        <table class="calendar">
+          <thead>
+            <tr>
+              <th>S</th>
+              <th>M</th>
+              <th>T</th>
+              <th>W</th>
+              <th>T</th>
+              <th>F</th>
+              <th>S</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>8</td>
+              <td>9</td>
+              <td>10</td>
+              <td>11</td>
+              <td>12</td>
+              <td>13</td>
+            </tr>
+            <tr>
+              <td >14</td>
+              <td>15</td>
+              <td>16</td>
+              <td>17</td>
+              <td>18</td>
+              <td>19</td>
+              <td>20</td>
+            </tr>
+            <tr>
+              <td>21</td>
+              <td>22</td>
+              <td>23</td>
+              <td>24</td>
+              <td>25</td>
+              <td>26</td>
+              <td class="current-day">27</td>
+            </tr>
+            <tr>
+              <td>28</td>
+              <td>29</td>
+              <td>30</td>
+              <td>31</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<script src="app.js"></script>
+<script type="module" src="./logout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+</html>

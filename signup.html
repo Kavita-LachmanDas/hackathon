@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+  <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Create Account</h2>
+        
+     
+        
+        <form autocomplete="off" id="signup">
+            <div class="form-field">
+                <input type="text" id="name" placeholder=" " required>
+                <label for="name">Full Name</label>
+            </div>
+            
+            <div class="form-field">
+                <input type="email" id="signup-email" placeholder=" " required>
+                <label for="email">Email</label>
+            </div>
+            
+            <div class="form-field">
+                <input type="password" id="signup-password" placeholder=" " required>
+                <label for="password">Password</label>
+            </div>
+            
+         
+            
+            <button >SIGN UP</button>
+            <button id="google">signup with google</button>
+        </form>
+        
+        <div class="terms">
+            By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </div>
+        
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+    </div>
+
+    <script type="module" src="./signup.js"></script>
+
+</body>
+</html>

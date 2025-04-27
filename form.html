@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Task</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .form-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      padding: 30px;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h2 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+      transform: translateX(-10px);
+      opacity: 0;
+      animation: slideIn 0.5s forwards;
+      animation-delay: calc(var(--i) * 0.1s);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+      transform: translateX(10px);
+      opacity: 0;
+      animation: slideIn 0.5s forwards;
+      animation-delay: calc(var(--i) * 0.1s + 0.1s);
+    }
+    
+    .form-control:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+      outline: none;
+      background-color: #fff;
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    @keyframes slideIn {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .submit-container {
+      margin-top: 30px;
+      text-align: center;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+      animation-delay: 0.6s;
+    }
+    
+    .btn {
+      background: linear-gradient(135deg, #6c63ff 0%, #4834d4 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(72, 52, 212, 0.3);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(72, 52, 212, 0.4);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Set animation delays for each form element */
+    #taskForm .form-group:nth-child(1) label { --i: 1; }
+    #taskForm .form-group:nth-child(1) input { --i: 1; }
+    #taskForm .form-group:nth-child(2) label { --i: 2; }
+    #taskForm .form-group:nth-child(2) textarea { --i: 2; }
+    #taskForm .form-group:nth-child(3) label { --i: 3; }
+    #taskForm .form-group:nth-child(3) input { --i: 3; }
+    #taskForm .form-group:nth-child(4) label { --i: 4; }
+    #taskForm .form-group:nth-child(4) select { --i: 4; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create New Task</h2>
+    <form id="taskForm">
+      <div class="form-group">
+        <label for="taskTitle">Task Title</label>
+        <input type="text" id="taskTitle" class="form-control" placeholder="Enter task title" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="taskDescription">Task Description</label>
+        <textarea id="taskDescription" class="form-control" placeholder="Describe your task here..." required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="assignedEmail">Assign To</label>
+        <input type="email" id="assignedEmail" class="form-control" placeholder="Enter email address" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="taskStatus">Task Status</label>
+        <select id="taskStatus" class="form-control" required>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+      </div>
+      
+      <div class="submit-container">
+        <button type="submit" class="btn">Create Task</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- EmailJS library -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Firebase Config -->
+  <script type="module" src="./firebase.config.js"></script>
+
+  <!-- Task Handling -->
+  <script type="module" src="./form.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
